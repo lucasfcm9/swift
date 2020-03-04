@@ -2,8 +2,8 @@ import UIKit
 
 var str = "Hello, playground"
 
-let x = 50 //the variable x is const
-var y = 30 //the variable x is not const
+let x = 50
+var y = 30
 y = 20
 
 let implicitInteger = 4
@@ -14,12 +14,12 @@ let explicitFloat: Float = 4
 
 let label = "The width is "
 let width = 94
-let widthLabel = label + String(width) //type conversion
+let widthLabel = label + String(width)
 
 let apples = 4
 let oranges = 5
 let appleSummary = "I have \(apples) apples"
-let orangeSummary = "I have \(oranges) oragens" //use \() to include a floating-point calculation in a string and to include someone's name in a greeting
+let orangeSummary = "I have \(oranges) oragens"
 
 let quotation = """
 I have \(apples + oranges) apples and oranges in my bag,"
@@ -41,13 +41,11 @@ print(occupations)
 shoppingList.append("car")
 print(shoppingList)
 
-//to create a empty array or dictionary, use the initializer syntax
 let emptyArray = [String]()
 let emptyDictionary = [String: Float]()
 
 print(emptyArray, emptyDictionary)
 
-//or create that way
 shoppingList = []
 occupations = [:]
 
@@ -73,7 +71,7 @@ if let name = optionalName {
 
 let nickName: String? = nil
 let fullName: String? = "Lucas Fellipe"
-let informalGreeting = "Hi \(nickName ?? fullName)"
+// let informalGreeting = "Hi \(nickName ?? fullName)"
 
 let vegetable = "red pepper"
 switch vegetable {
@@ -129,10 +127,6 @@ for i in 1...4 {
     total2 += i
 }
 print(total2)
-
-//Functions
-
-//use func to declare a function
 
 func greet(_ person: String, on day: String) -> String {
     return "Hello \(person), today is \(day)"
@@ -213,12 +207,3 @@ print(mappedNumbers)
 
 let sortedNumbers = numbers.sorted { $0 < $1 }
 print(sortedNumbers)
-
-//Objects and Classes
-
-class Shape {
-    var numberOfSides = 0
-    func simplesDescription() -> String {
-        return "A shape with \(numberOfSides) sides."
-    }
-}

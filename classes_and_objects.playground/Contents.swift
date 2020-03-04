@@ -1,100 +1,119 @@
 import UIKit
 
-//First class
-class Shape {
-    
+class NamedShape {
     var numberOfSides: Int = 0
-    var name: String = ""
+    var name: String
     
-    init(name: String, numberOfSides: Int) {
-        self.numberOfSides = numberOfSides
+    init(name: String) {
         self.name = name
     }
-        
-    func description() -> String {
-        return "The \(name) has \(numberOfSides) sides."
+    
+    func simpleDescription() -> String {
+        return "A \(name) with \(numberOfSides) sides."
     }
 }
 
-//Herança
-class Square: Shape {
+var shape = NamedShape(name: "Square")
+shape.numberOfSides = 4
+var shapeDescription = shape.simpleDescription()
+
+
+class Square: NamedShape {
+    var sideLength: Double
     
-    var sizeOfSide: Double = 0.0
-    init(name: String, numberOfSides: Int, sizeOfSide: Double) {
-        self.sizeOfSide = sizeOfSide
-        super.init(name: name, numberOfSides: numberOfSides)
+    init(_ sideLength: Double, _ name: String) {
+        self.sideLength = sideLength
+        super.init(name: name)
+        numberOfSides = 4
     }
     
     func area() -> Double {
-        return sizeOfSide * 2
+        return sideLength * sideLength
     }
     
-    override func description() -> String {
-        return "A \(name) with \(numberOfSides) sides and sizes with length = \(sizeOfSide)"
-    }
-}
-
-var square = Square(name: "Square", numberOfSides: 4, sizeOfSide: 5.67)
-print(square.area())
-print(square.description())
-
-class Product {
-    
-    var cod: Int = 0
-    var value: Double = 0.0
-    var description: String = ""
-    init(_ cod: Int, _ value: Double, _ description: String) {
-        self.cod = cod
-        self.value = value
-        self.description = description
+    override func simpleDescription() -> String {
+        return "A square with sides of length \(sideLength)"
     }
 }
 
-class Item {
+let test = Square(5.2, "my test square")
+test.area()
+test.simpleDescription()
+
+class Circle: NamedShape {
+    let pi = 3.14159
+    var r: Double = 0.0
     
-    var product: Product
-    var quantity: Int = 0
-    init(_ product: Product, _ quantity: Int) {
-        self.product = product
-        self.quantity = quantity
+    init(_ r: Double, _ name: String) {
+        self.r = r
+        super.init(name: name)
+    }
+    
+    func area() -> Double {
+        return pi * pow(r, 2)
+    }
+    
+    override func simpleDescription() -> String {
+        return "A circle with \(r) of radious"
     }
 }
 
+let circle = Circle(6.554, "Circle")
+circle.area()
+circle.simpleDescription()
 
-class Order {
+class EquilateralTriangle: NamedShape {
+    var sideLength: Double = 0.0
     
-    var totalValue: Double = 0.0
-    var items: [Item] = []
-    var item: Item
-    init(totalValue: Double = 0.0, items: [Item], item: Item) {
-        self.totalValue = totalValue
-        self.items = items
-        self.item = item
+    init(_ sideLength: Double, _ name: String) {
+        self.sideLength = sideLength
+        super.init(name: name)
+        numberOfSides = 3
     }
     
-    func addOrder(item: Item) {
-        self.items.append(item)
-    }
-    
-    func total() -> Double {
-        var tot = 0.0
-        for item in self.items {
-            tot += (item.product.value * Double(item.quantity))
+    var perimeter: Double {
+        get {
+            return 3.0 * sideLength
         }
-        return tot
+        set(newValue){
+            sideLength = newValue / 3.0
+        }
+    }
+    
+    override func simpleDescription() -> String {
+        return "An equilateral triangle with sides of length \(sideLength)"
     }
 }
 
-var iPhone = Product(1, 7299.99, "iPhone 11 PRO")
-var macbookPro = Product(2, 14999.99, "MacBook Pro 2017")
-var item = Item(iPhone, 5)
-var item2 = Item(macbookPro, 2)
-var p1 = Order(totalValue: 0.0, items: [], item: item)
-p1.addOrder(item: item)
-p1.addOrder(item: item2)
+let triangle = EquilateralTriangle(4.5, "Equilateral Triangle")
+print(triangle.perimeter)
+triangle.perimeter = 9.9
+print(triangle.sideLength)
 
-print("Total value is: ", p1.total())
+class TriangleAndSquare {
+    var triangle: EquilateralTriangle {
+        willSet(newValue) {
+            square.sideLength = newValue.sideLength
+        }
+    }
+    
+    var square: Square {
+        willSet(newValue) {
+            triangle.sideLength = newValue.sideLength
+        }
+    }
+    
+    init(_ size: Double, _ name: String) {
+        square = Square(size, name)
+        triangle = EquilateralTriangle(size, name)
+    }
+}
 
+var triangleAndSquare = TriangleAndSquare(10, "another test shape")
+print(triangleAndSquare.square.sideLength)
+print(triangleAndSquare.triangle.sideLength)
+triangleAndSquare.square = Square(50, "larger square")
+print(triangleAndSquare.triangle.sideLength)
 
-
-
+let optionalSquare: Square? = Square(2.5, "optional name")
+let sideLength = optionalSquare?.sideLength

@@ -203,7 +203,7 @@ let forcedString: String = possibleString! //Requer o sinal de exclamação
 let assumedString: String! = "An implicity unwrapped optional string"
 let implicitString: String = assumedString //Não requer o sinal de exclamação
 
-//Sempre use o ponto de exclamação quando for usar a variável, como no exemplo acima
+//Sempre use o ponto de exclamação quando for usar a variável, sendo ela opcional, como no exemplo acima
 
 if assumedString != nil {
     print(assumedString!)
